@@ -1,18 +1,18 @@
-# 1 Começamos com uma imagem leve do python
+# 1. Começamos com uma imagem leve do Python
 FROM python:3.9-slim
 
-# 2 Definimos onde o código vai morar dentro do container
+# 2. Definimos onde o código vai morar dentro do container
 WORKDIR /app
 
-# 3 Copiamos o arquivo de requisitos e instalamos
+# 3. Copiamos o arquivo de requisitos e instalamos
 COPY requirements.txt .
-RUN  pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-# 4 Copiamos o resto do código
+# 4. Copiamos o resto do código
 COPY . .
 
-# 5 Expomos a porta que a aplicação usa
+# 5. Expomos a porta que a aplicação usa
 EXPOSE 8080
 
-# 6 Comando para ligar a aplicação
-CMD ["python", "app.py" ]
+# 6. Comando para ligar a aplicação
+CMD ["python", "app.py"]
