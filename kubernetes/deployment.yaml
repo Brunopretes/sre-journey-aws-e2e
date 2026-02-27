@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sre-app-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: sre-app
+  template:
+    metadata:
+      labels:
+        app: sre-app
+    spec:
+      containers:
+      - name: python-app
+        image: docker-app:latest
+        imagePullPolicy: Never  # Força o K8s a usar a imagem que importamos para o cluster
+        ports:
+        - containerPort: 8080
