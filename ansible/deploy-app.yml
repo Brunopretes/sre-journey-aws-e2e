@@ -1,0 +1,8 @@
+---
+- name: Deploy da aplicacao com Docker Compose
+  hosts: local
+  tasks:
+    - name: Subir os containers da aplicacao
+      community.docker.docker_compose_v2:
+        project_src: "/home/bruno/Área de trabalho/projetos/sre-journey-aws-e2e/docker"
+        state: present

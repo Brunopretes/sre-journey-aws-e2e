@@ -1,0 +1,16 @@
+---
+- name: Configurar Docker no Servidor
+  hosts: local
+  become: true
+  tasks:
+    - name: Verificar se o Docker está instalado
+      command: docker --version
+      register: docker_check
+      ignore_errors: yes
+
+    - name: Garantir que o serviço do Docker esteja rodando
+      service:
+        name: docker
+        state: started
+        enabled: yes
+      when: docker_check.rc == 0
