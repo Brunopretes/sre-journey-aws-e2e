@@ -20,3 +20,4 @@ Projeto focado em automação de infraestrutura e observabilidade.
 - App: `http://IP_SERVIDOR:8080`
 - Prometheus: `http://IP_SERVIDOR:9090`
 - Grafana: `http://IP_SERVIDOR:3000`
+<img width="1278" height="593" alt="image" src="https://github.com/user-attachments/assets/552159c3-ae4e-43b3-8c7c-2445dd73cace" />
