@@ -1,8 +1,24 @@
 ---
-- name: Deploy da aplicacao com Docker Compose
-  hosts: local
+- name: Deploy da Aplicação no Servidor Real
+  hosts: servidores_web
+  become: yes
   tasks:
-    - name: Subir os containers da aplicacao
-      community.docker.docker_compose_v2:
-        project_src: "/home/bruno/Área de trabalho/projetos/sre-journey-aws-e2e/docker"
-        state: present
+    - name: 1. Garantir que a pasta da app existe
+      file:
+        path: /home/sre/projeto-app
+        state: directory
+        owner: sre
+        group: sre
+        mode: '0755'
+
+    - name: 2. Sincronizar arquivos da pasta docker para o servidor
+      copy:
+        src: ../docker/
+        dest: /home/sre/projeto-app/
+        owner: sre
+        group: sre
+
+    - name: 3. Subir a aplicação com Docker Compose
+      shell: "docker compose up -d --build"
+      args:
+        chdir: /home/sre/projeto-app

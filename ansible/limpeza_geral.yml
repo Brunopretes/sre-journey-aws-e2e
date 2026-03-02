@@ -1,0 +1,36 @@
+---
+- name: Limpeza Pesada do Servidor SRE
+  hosts: servidores_web
+  become: yes
+  tasks:
+    - name: 1. Parar e remover todos os containers Docker
+      shell: "docker stop $(docker ps -aq) && docker rm $(docker ps -aq)"
+      ignore_errors: yes
+
+    - name: 2. Faxina profunda no Docker (Imagens, Redes e Volumes)
+      shell: "docker system prune -a --volumes -f"
+      ignore_errors: yes
+
+    - name: 3. Remover pastas residuais de monitoramento e K8s
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /etc/prometheus
+        - /etc/grafana
+        - /var/lib/grafana
+        - /var/lib/prometheus
+        - /var/lib/cni
+        - /etc/cni
+        - /var/lib/kubelet
+        - /etc/kubernetes
+
+    - name: 4. Limpar cache do Gerenciador de Pacotes (APT)
+      apt:
+        autoremove: yes
+        clean: yes
+        purge: yes
+
+    - name: 5. Remover interfaces de rede virtuais residuais
+      shell: "ip link delete cni0 || true; ip link delete flannel.1 || true"
+      ignore_errors: yes
